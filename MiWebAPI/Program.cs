@@ -11,6 +11,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<EmpleadoData>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("NuevaPolitica", app =>
+    {
+        app.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,6 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("NuevaPolitica");
 app.UseAuthorization();
 
 app.MapControllers();
